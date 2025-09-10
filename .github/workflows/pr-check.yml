@@ -5,6 +5,8 @@ name: PR Checks
 on:
   pull_request:
     branches: [main]
+  workflow_call: # дает возможность вызова из deploy.yml  в нашем случае
+    
  
 jobs:
   test:
