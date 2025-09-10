@@ -39,7 +39,7 @@ jobs:
             docker pull ${{ secrets.DOCKER_USER}}/devops-node-starter:${{ github.sha }}
             docker stop devops-node-starter || true
             docker rm devops-node-starter || true
-            docker run -d  --name devops-node-starter -p 4545:4545 ${{ secrets.DOCKER_USER}}/devops-node-starter:${{ gihub.sha }}      # 4545 (порт на удаленном сервере):4545 (порт в docker conteiner)
-            
+            docker run -d  --name devops-node-starter -p 4545:4545 ${{ secrets.DOCKER_USER}}/devops-node-starter:${{ github.sha }}      # 4545 (порт на удаленном сервере):4545 (порт в docker conteiner)
+
 
 
