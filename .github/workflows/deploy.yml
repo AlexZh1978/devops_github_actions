@@ -24,7 +24,7 @@ jobs:
         run: docker build -t ${{ secrets.DOCKER_USER }}/devops-node-starter:${{ github.sha }} . # хэш коммита
 
       - name: Логин в Docker Hub
-        run: echo "${{ secrets.DOCKER_PASS }}" | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
+        run: echo ${{ secrets.DOCKER_PASS }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
  
       - name: Публикация Docker-образа
         run: docker push ${{ secrets.DOCKER_USER }}/devops-node-starter:${{ github.sha }}
@@ -35,7 +35,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: 
-            echo "${{ secrets.DOCKER_PASS }}" | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
+            echo ${{ secrets.DOCKER_PASS }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
             docker pull ${{ secrets.DOCKER_USER}}/devops-node-starter:${{ github.sha }}
             docker stop devops-node-starter || true
             docker rm devops-node-starter || true
