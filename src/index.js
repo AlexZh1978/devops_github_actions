@@ -1,6 +1,7 @@
 // Импортируем фреймворк Express из установленных зависимостей.
 // Express упрощает создание HTTP‑серверов и маршрутов в Node.js.
 import express from 'express';
+import { version } from 'react';
 
 // Создаём экземпляр приложения Express.
 // Этот объект будет использоваться для настройки маршрутов, middleware и запуска сервера.
@@ -21,7 +22,7 @@ app.get('/ping', (req, res) => {
   //  2. Установит заголовок Content-Type: application/json.
   //  3. Вернёт HTTP‑код 200 OK (если не задан другой).
   // Такой ответ удобен для мониторинга, CI‑тестов и Kubernetes livenessProbe.
-  res.send({ message: 'pong' });
+  res.send({ message: 'pong', version: '1.0.0' });
 });
 
 // Запускаем сервер на указанном порту.

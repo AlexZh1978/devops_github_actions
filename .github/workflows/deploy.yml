@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]  # Запускать только при пуше в ветку main
  
-jobs:
+jobs: # могут выполняться на разных серверах
   checks: 
     uses: ./.github/workflows/pr-check.yml
   build:
