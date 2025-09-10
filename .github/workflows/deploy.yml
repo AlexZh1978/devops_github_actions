@@ -5,29 +5,28 @@ on:
     branches: [main]  # Запускать только при пуше в ветку main
  
 jobs:
+  checks: 
+    uses: ./.github/workflows/pr-check.yml
   build:
+    needs: checks
     runs-on: ubuntu-latest  # Используем GitHub-hosted runner с Ubuntu
  
     steps:
-      - uses: actions/checkout@v3  # Клонирует код из репозитория
-      
-      - name: Installing dependencies
-        run: npm ci
-
-      - name: Linting
-        run:  npm run lint
-
-      - name: Testing
-        run: npm run test
- 
-      - name: Сборка Docker-образа
+      - uses: actions/checkout@v3
+      - name: Build Docker Image
         run: docker build -t ${{ secrets.DOCKER_USER }}/devops-node-starter:${{ github.sha }} . # хэш коммита
 
-      - name: Логин в Docker Hub
+      - name: Docker Login in the Hub
         run: echo ${{ secrets.DOCKER_PASS }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
  
-      - name: Публикация Docker-образа
+      - name: Docker Image Push
         run: docker push ${{ secrets.DOCKER_USER }}/devops-node-starter:${{ github.sha }}
+
+  deploy: 
+    needs: build
+    runs-on: ubuntu-latest  # Используем GitHub-hosted runner с Ubuntu   
+
+    steps:
       - name: Deploy over SSH  
         uses: appleboy/ssh-action@v0.1.6
         with:
